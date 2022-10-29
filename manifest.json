@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-new-note-new-window",
-	"name": "Sample Plugin",
-	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "Plugin for easily opening new notes in a floating window.",
-	"author": "Pr0dt0s",
-	"authorUrl": "https://github.com/Pr0dt0s",
-	"isDesktopOnly": false
+  "id": "obsidian-new-note-new-window",
+  "name": "Sample Plugin",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Plugin for easily opening new notes in a floating window.",
+  "author": "Pr0dt0s",
+  "authorUrl": "https://github.com/Pr0dt0s",
+  "isDesktopOnly": false
 }
