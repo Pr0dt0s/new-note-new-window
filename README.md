@@ -4,23 +4,23 @@ Plugin for opening new notes in a floating window in [Obsidian](https://obsidian
 
 ## How to use
 
-- Just run the provided command **New Note New Window: Create New Note in Window**, or better yet add custom shortcut through settings!
+- Just run the provided command **New Note New Window: Create New Note in Window**, or better yet add a custom shortcut through settings!
 
-New Notes are created in the folder path that is set under the "Default location for new notes" in Obsidian Settings > Files & Links.
+New Notes are created in the folder path set under the "Default location for new notes" in Obsidian Settings > Files & Links.
 
 ## Settings
 
-| Setting                   | Default | Description                                                                                                                  |
-| ------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| **Reuse Floating Window** | `false` | if `true` new notes will be open in the same floating window<br> if `false` new notes will each create a new floating window |
+| Setting                   | Default | Description                                                                                                          |
+| ------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| **Reuse Floating Window** | `false` | if `true` new notes will open in the same floating window<br> if `false` new notes will create a new floating window |
 
 ## Manually installing the plugin
 
-- Copy over `main.js`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/new-note-new-window/`.
+- Copy over the `main.js`, `manifest.json` from the latest [release](https://github.com/Pr0dt0s/new-note-new-window/releases) to your vault `VaultFolder/.obsidian/plugins/new-note-new-window/`.
 
 ## TODOs
 
-- [ ] Add option to create new commands with a set of configuration combinations. E.g. to be able to create a separate hotkey for creating files on path X and another on path Y.
+- [ ] Add an option to create new commands with a set of configuration combinations. E.g. to be able to create a separate hotkey for creating files on path X and another on path Y.
 
 ## Contributors ✨
 
