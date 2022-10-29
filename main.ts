@@ -132,7 +132,7 @@ class SettingTab extends PluginSettingTab {
     });
 
     new Setting(containerEl)
-      .setName('Reuse Floating Window')
+      .setName('Reuse the same floating window.')
       .setDesc('If true new notes will open in the same floating window.')
       .addToggle((cb) => {
         cb.setValue(this.plugin.settings.openInLastFloatingWindow);
@@ -141,5 +141,28 @@ class SettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();
         });
       });
+
+    containerEl.createEl('hr');
+    const div1 = containerEl.createEl('div', {
+      text: 'Developed by ',
+    });
+    div1.createEl('a', {
+      text: `Pr0dt0s`,
+      href: `https://github.com/Pr0dt0s`,
+    });
+    div1.appendText(' & ');
+    div1.createEl('a', {
+      text: `Brainflurry`,
+      href: `http://brainflurry.com/`,
+    });
+    containerEl.createEl('br');
+    const div2 = containerEl.createEl('div', {
+      text: 'If you want to see the documentation, submit a bug, or a feature request you can do so ',
+    });
+    div2.createEl('a', {
+      text: 'here',
+      href: 'https://github.com/Pr0dt0s/new-note-new-window',
+    });
+    div2.appendText('.');
   }
 }
