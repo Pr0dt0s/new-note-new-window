@@ -1,10 +1,14 @@
 import {
   App,
+  Notice,
   Plugin,
   PluginSettingTab,
   Setting,
+  TFolder,
   WorkspaceLeaf,
 } from 'obsidian';
+
+import { FolderSuggest } from 'src/settings/folderSuggester';
 
 interface LeafStatus {
   leaf: WorkspaceLeaf;
@@ -12,10 +16,14 @@ interface LeafStatus {
 }
 interface NewNoteNewWindowSettings {
   openInLastFloatingWindow: boolean;
+  useDefaultFolder: boolean;
+  customFolder: string;
 }
 
 const DEFAULT_SETTINGS: NewNoteNewWindowSettings = {
   openInLastFloatingWindow: true,
+  useDefaultFolder: true,
+  customFolder: '/',
 };
 
 export default class NewNoteNewWindow extends Plugin {
@@ -56,8 +64,6 @@ export default class NewNoteNewWindow extends Plugin {
       }
       const newLeafStatus: LeafStatus = { leaf, status: 'new' };
 
-      this.app.workspace.on('active-leaf-change', () => console.log);
-
       trackClose(newLeafStatus);
       this.leaves.push(newLeafStatus);
       return newLeafStatus;
@@ -69,24 +75,38 @@ export default class NewNoteNewWindow extends Plugin {
       icon: 'popup-open',
       callback: async () => {
         let fileName = this.generateNewFileNameInFolder();
-
         let nleafStatus = this.settings.openInLastFloatingWindow
           ? createLeaf('same-window')
           : createLeaf('new-window');
         const newFile = await this.app.vault.create(fileName, '', {});
         await nleafStatus.leaf.openFile(newFile);
         nleafStatus.status = 'loaded';
-        console.log(this.leaves);
       },
     });
 
     this.addSettingTab(new SettingTab(this.app, this));
   }
 
-  private generateNewFileNameInFolder() {
+  private getFileParent() {
+    if (!this.settings.useDefaultFolder) {
+      let folder = this.settings.customFolder;
+      const abstractFile = this.app.vault.getAbstractFileByPath(folder);
+      if (abstractFile && 'children' in (abstractFile as TFolder)) {
+        return abstractFile as TFolder;
+      } else {
+        new Notice(`Error opening folder '${folder}'!`);
+        throw new Error(`Could not open the folder at '${folder}'`);
+      }
+    }
+
     let lastFile = this.app.workspace.getActiveFile();
     let path = !!lastFile ? lastFile.path : '';
-    const tfolder = this.app.fileManager.getNewFileParent(path);
+    return this.app.fileManager.getNewFileParent(path);
+  }
+
+  private generateNewFileNameInFolder() {
+    const tfolder = this.getFileParent();
+
     let newFilePath = tfolder.path;
     let untitleds = tfolder.children
       .filter((c) => c.name.startsWith('Untitled'))
@@ -141,6 +161,39 @@ class SettingTab extends PluginSettingTab {
           await this.plugin.saveSettings();
         });
       });
+
+    new Setting(containerEl)
+      .setName('Use the default folder.')
+      .setDesc(
+        "Create the new files in the default folder as per Obsidian's configuration."
+      )
+      .addToggle((cb) => {
+        cb.setValue(this.plugin.settings.useDefaultFolder);
+        cb.onChange(async (value) => {
+          folderSetting.settingEl.style.display = value ? 'none' : 'block';
+          this.plugin.settings.useDefaultFolder = value;
+          await this.plugin.saveSettings();
+        });
+      });
+
+    const folderSetting = new Setting(this.containerEl)
+      .setName('Template folder location')
+      .setDesc('Files in this folder will be available as templates.')
+      .addSearch((cb) => {
+        new FolderSuggest(cb.inputEl);
+        cb.setPlaceholder('Example: folder1/folder2')
+          .setValue(this.plugin.settings.customFolder)
+          .onChange((new_folder) => {
+            this.plugin.settings.customFolder = new_folder;
+            this.plugin.saveSettings();
+          });
+        // // @ts-ignore
+        // cb.containerEl.addClass('templater_search');
+      });
+    folderSetting.settingEl.style.display = this.plugin.settings
+      .useDefaultFolder
+      ? 'none'
+      : 'block';
 
     containerEl.createEl('hr');
     const div1 = containerEl.createEl('div', {
