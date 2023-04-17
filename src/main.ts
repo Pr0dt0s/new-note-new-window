@@ -163,7 +163,7 @@ class SettingTab extends PluginSettingTab {
       });
 
     new Setting(containerEl)
-      .setName('Use the default folder.')
+      .setName('Create in the default folder.')
       .setDesc(
         "Create the new files in the default folder as per Obsidian's configuration."
       )
@@ -177,8 +177,8 @@ class SettingTab extends PluginSettingTab {
       });
 
     const folderSetting = new Setting(this.containerEl)
-      .setName('Template folder location')
-      .setDesc('Files in this folder will be available as templates.')
+      .setName('Custom folder')
+      .setDesc('Custom folder in wich to create the new notes.')
       .addSearch((cb) => {
         new FolderSuggest(cb.inputEl);
         cb.setPlaceholder('Example: folder1/folder2')

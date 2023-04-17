@@ -10,9 +10,11 @@ New Notes are created in the folder path set under the "Default location for new
 
 ## Settings
 
-| Setting                   | Default | Description                                                                                                          |
-| ------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
-| **Reuse Floating Window** | `false` | if `true` new notes will open in the same floating window<br> if `false` new notes will create a new floating window |
+| Setting                          | Default | Description                                                                                                                                          |
+| -------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Reuse Floating Window**        | `false` | if `true` new notes will open in the same floating window<br> if `false` new notes will create a new floating window                                 |
+| **Create in the default folder** | `true`  | if `true` new notes will be created in the default Obsidian folder (as configured) <br> if `false` new notes will be created in the specified folder |
+| **Custom folder**                | ""      | Custom folder in wich to create the new notes. Only used when **Create in the default folder** is set to `false`                                     |
 
 ## Manually installing the plugin
 
